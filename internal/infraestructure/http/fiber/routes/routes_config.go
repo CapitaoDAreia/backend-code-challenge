@@ -7,5 +7,10 @@ import (
 )
 
 func SetupRoutes(router fiber.Router, controllers *controllers.APIControllers) {
-	router.Get("/expression", controllers.GetExpressions)
+	router.Post("/expressions", controllers.RegisterExpression)
+
+	router.Get("/expressions", controllers.GetExpressions)
+	router.Get("/expressions/:expressionID", controllers.CalculateExpression)
+
+	router.Patch("/expressions/:expressionID", controllers.UpdateExpression)
 }

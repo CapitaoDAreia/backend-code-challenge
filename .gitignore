@@ -1,0 +1,6 @@
+# files
+.vscode/*
+
+# folders
+.vscode
+tmp
