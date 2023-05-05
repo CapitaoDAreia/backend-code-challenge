@@ -13,7 +13,6 @@ import (
 )
 
 func main() {
-
 	db := postgres.Connect()
 
 	expressionsRepository := repositories.NewExpressionsRepository(db)
@@ -35,5 +34,4 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-
 }

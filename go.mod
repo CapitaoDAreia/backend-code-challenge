@@ -3,6 +3,7 @@ module backend-challenge-api
 go 1.19
 
 require (
+	github.com/Knetic/govaluate v3.0.0+incompatible
 	github.com/gofiber/fiber/v2 v2.44.0
 	gorm.io/driver/postgres v1.5.0
 	gorm.io/gorm v1.25.0
