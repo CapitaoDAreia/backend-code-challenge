@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend-challenge-api/internal/infraestructure/configuration"
 	"backend-challenge-api/internal/infraestructure/database/postgres"
 	"backend-challenge-api/internal/infraestructure/database/postgres/repositories"
 	"backend-challenge-api/internal/infraestructure/http/fiber/controllers"
@@ -11,6 +12,10 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/recover"
 )
+
+func init() {
+	configuration.GenerateSecretKey()
+}
 
 func main() {
 	db := postgres.Connect()

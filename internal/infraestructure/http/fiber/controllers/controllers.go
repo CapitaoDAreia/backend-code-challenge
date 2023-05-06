@@ -3,6 +3,7 @@ package controllers
 import (
 	"backend-challenge-api/internal/domain/entities"
 	"backend-challenge-api/internal/infraestructure/database/postgres/repositories"
+	"backend-challenge-api/internal/infraestructure/http/auth"
 	"fmt"
 	"strconv"
 
@@ -41,7 +42,6 @@ func (controller *APIControllers) RegisterExpression(ctx *fiber.Ctx) error {
 
 // Retrieve all expressions from database
 func (controller *APIControllers) GetExpressions(ctx *fiber.Ctx) error {
-
 	expressions, err := controller.r.GetExpressions()
 	if err != nil {
 		return ctx.Status(500).JSON(fiber.Map{
@@ -169,4 +169,16 @@ func (controller *APIControllers) DeleteExpression(ctx *fiber.Ctx) error {
 	}
 
 	return ctx.Status(204).JSON("")
+}
+
+// Authenticate user
+func (controller *APIControllers) Authenticate(ctx *fiber.Ctx) error {
+	userToken, err := auth.GenerateToken()
+	if err != nil {
+		return ctx.Status(500).JSON(fiber.Map{
+			"error on generate token": err.Error(),
+		})
+	}
+
+	return ctx.Status(200).JSON(userToken)
 }
