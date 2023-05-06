@@ -1,7 +1,7 @@
 package postgres
 
 import (
-	"backend-challenge-api/models"
+	"backend-challenge-api/internal/domain/entities"
 	"fmt"
 	"log"
 	"os"
@@ -24,9 +24,6 @@ func Connect() *gorm.DB {
 		os.Getenv("DB_NAME"),
 	)
 
-	log.Println(dsn)
-	log.Println(dsn)
-
 	db, err := gorm.Open(postgres.Open(dsn), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
@@ -39,7 +36,7 @@ func Connect() *gorm.DB {
 	db.Logger = logger.Default.LogMode(logger.Info)
 
 	log.Println("Running models mogrations...")
-	db.AutoMigrate(&models.Expression{})
+	db.AutoMigrate(&entities.Expression{})
 
 	DB = DBInstance{
 		DB: db,
@@ -47,18 +44,3 @@ func Connect() *gorm.DB {
 
 	return db
 }
-
-// func Connect() (*sql.DB, error) {
-// 	db, err := sql.Open("postgres", "user=postgres dbname=expressions password=postgres host=0.0.0.0 port=5454 sslmode=disable")
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	if err = db.Ping(); err != nil {
-// 		return nil, err
-// 	}
-
-// 	fmt.Println("Connected to PostgreSQL!")
-
-// 	return db, nil
-// }
