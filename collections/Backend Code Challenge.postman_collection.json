@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "abffa9d2-0041-48b2-9af5-9fb0aa9bf363",
+		"name": "Backend Code Challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET Expressions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/expressions",
+					"protocol": "http",
+					"host": [
+						"{{CONTAINER_IP_ADDRESS}}"
+					],
+					"port": "{{CONTAINER_PORT}}",
+					"path": [
+						"expressions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UPDATE Expressions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"expression\": \"x || y\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/expressions/9",
+					"protocol": "http",
+					"host": [
+						"{{CONTAINER_IP_ADDRESS}}"
+					],
+					"port": "{{CONTAINER_PORT}}",
+					"path": [
+						"expressions",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE Expressions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "    {\n        \"expression\": \"x || y\"\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/expressions/9",
+					"protocol": "http",
+					"host": [
+						"{{CONTAINER_IP_ADDRESS}}"
+					],
+					"port": "{{CONTAINER_PORT}}",
+					"path": [
+						"expressions",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CREATE",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"expression\": \"(x || y) && z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/expressions",
+					"protocol": "http",
+					"host": [
+						"{{CONTAINER_IP_ADDRESS}}"
+					],
+					"port": "{{CONTAINER_PORT}}",
+					"path": [
+						"expressions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "AUTH",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/auth",
+					"protocol": "http",
+					"host": [
+						"{{CONTAINER_IP_ADDRESS}}"
+					],
+					"port": "{{CONTAINER_PORT}}",
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET Calculated Expressions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/9?x=false&y=true&z=false",
+					"protocol": "http",
+					"host": [
+						"{{CONTAINER_IP_ADDRESS}}"
+					],
+					"port": "{{CONTAINER_PORT}}",
+					"path": [
+						"9"
+					],
+					"query": [
+						{
+							"key": "x",
+							"value": "false"
+						},
+						{
+							"key": "y",
+							"value": "true"
+						},
+						{
+							"key": "z",
+							"value": "false"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
