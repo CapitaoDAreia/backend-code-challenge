@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"backend-challenge-api/internal/domain/entities"
+	"log"
 
 	_ "github.com/lib/pq"
 	"gorm.io/gorm"
@@ -17,13 +18,14 @@ func NewExpressionsRepository(DB *gorm.DB) *ExpressionsRepository {
 	}
 }
 
-func (r *ExpressionsRepository) RegisterExpression(expression *entities.Expression) (*entities.Expression, error) {
+func (r *ExpressionsRepository) RegisterExpression(expression *entities.Expression) (entities.Expression, error) {
 	err := r.DB.Create(expression)
 	if err.Error != nil {
-		return &entities.Expression{}, err.Error
+		log.Println("error4.")
+		return entities.Expression{}, err.Error
 	}
 
-	return expression, nil
+	return *expression, nil
 }
 
 func (r *ExpressionsRepository) GetExpressions() ([]entities.Expression, error) {

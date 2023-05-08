@@ -1,6 +1,7 @@
 package main
 
 import (
+	"backend-challenge-api/internal/application/services"
 	"backend-challenge-api/internal/infraestructure/configuration"
 	"backend-challenge-api/internal/infraestructure/database/postgres"
 	"backend-challenge-api/internal/infraestructure/database/postgres/repositories"
@@ -20,8 +21,9 @@ func init() {
 func main() {
 	db := postgres.Connect()
 
-	expressionsRepository := repositories.NewExpressionsRepository(db)
-	expressionsController := controllers.NewAPIControllers(*expressionsRepository)
+	apiRepository := repositories.NewExpressionsRepository(db)
+	apiService := services.NewExpressionsServices(*apiRepository)
+	expressionsController := controllers.NewAPIControllers(apiService)
 
 	app := fiber.New(fiber.Config{
 		JSONEncoder: json.Marshal,
@@ -30,9 +32,7 @@ func main() {
 	app.Use(cors.New())
 	app.Use(recover.New())
 
-	api := app.Group("")
-
-	routes.SetupRoutes(api, expressionsController)
+	routes.SetupRoutes(app, expressionsController)
 
 	err := app.Listen(":4000")
 
