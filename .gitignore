@@ -1,5 +1,6 @@
 # files
 .vscode/*
+.env
 
 # folders
 .vscode
