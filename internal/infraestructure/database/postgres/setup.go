@@ -35,7 +35,7 @@ func Connect() *gorm.DB {
 	log.Println("connected")
 	db.Logger = logger.Default.LogMode(logger.Info)
 
-	log.Println("Running models mogrations...")
+	log.Println("Running models migrations...")
 	db.AutoMigrate(&entities.Expression{})
 
 	DB = DBInstance{

@@ -31,7 +31,7 @@ func (controller *APIControllers) RegisterExpression(ctx *fiber.Ctx) error {
 	createdExpressionId, err := controller.s.RegisterExpression(receivedExpression)
 	if err != nil {
 		return ctx.Status(500).JSON(fiber.Map{
-			"error on register": err.Error(),
+			"error on register a new expression": err.Error(),
 		})
 	}
 
@@ -111,7 +111,7 @@ func (controller *APIControllers) CalculateExpression(ctx *fiber.Ctx) error {
 	result, err := controller.s.CalculateExpression(parsedId, ctx)
 	if err != nil {
 		return ctx.Status(500).JSON(fiber.Map{
-			"error on calculate": err,
+			"error on calculate": err.Error(),
 		})
 	}
 
