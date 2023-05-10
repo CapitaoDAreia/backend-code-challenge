@@ -1,0 +1,16 @@
+[
+    {
+        "ID": 0,
+        "CreatedAt": "2023-05-08T13:18:59.382609385Z",
+        "UpdatedAt": "2023-05-08T13:18:59.382609385Z",
+        "DeletedAt": null,
+        "expression": "x > y"
+    },
+    {
+        "ID": 1,
+        "CreatedAt": "2023-05-08T13:18:59.382609385Z",
+        "UpdatedAt": "2023-05-08T13:18:59.382609385Z",
+        "DeletedAt": null,
+        "expression": "x > y"
+    }
+]
