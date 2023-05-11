@@ -12,8 +12,9 @@ import (
 var (
 	Err                              error
 	ValidToken                       string
-	ExpressionOutput                 entities.Expression
-	ExpressionsOutput                []entities.Expression
+	ExpressionStringInput            string
+	Expression                       entities.Expression
+	Expressions                      []entities.Expression
 	ExpressionJsonSerialized         []byte
 	CreatedExpressionJsonSerialized  []byte
 	CreatedExpressionsJsonSerialized []byte
@@ -32,7 +33,7 @@ func TestMain(m *testing.M) {
 		panic(fmt.Sprintf("Error on parsing setup test variables, %s", Err))
 	}
 
-	if err := json.Unmarshal(CreatedExpressionJsonSerialized, &ExpressionOutput); err != nil {
+	if err := json.Unmarshal(CreatedExpressionJsonSerialized, &Expression); err != nil {
 		panic(fmt.Sprintf("Error on read created expression json from resources, %s", err))
 	}
 
@@ -41,7 +42,7 @@ func TestMain(m *testing.M) {
 		panic(fmt.Sprintf("Error on read created expression json from resources, %s", Err))
 	}
 
-	if Err = json.Unmarshal(CreatedExpressionsJsonSerialized, &ExpressionsOutput); Err != nil {
+	if Err = json.Unmarshal(CreatedExpressionsJsonSerialized, &Expressions); Err != nil {
 		panic(fmt.Sprintf("Error on read created expression json from resources, %s", Err))
 	}
 

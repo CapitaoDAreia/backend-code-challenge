@@ -23,7 +23,7 @@ func NewAPIControllers(s services.ExpressionServices) *APIControllers {
 func (controller *APIControllers) RegisterExpression(ctx *fiber.Ctx) error {
 	receivedExpression := new(entities.Expression)
 	if err := ctx.BodyParser(receivedExpression); err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error on parsing in RegisterExpression": err.Error(),
 		})
 	}
@@ -35,7 +35,7 @@ func (controller *APIControllers) RegisterExpression(ctx *fiber.Ctx) error {
 		})
 	}
 
-	return ctx.Status(200).JSON(createdExpressionId)
+	return ctx.Status(fiber.StatusCreated).JSON(createdExpressionId)
 }
 
 // Retrieve all expressions from database
@@ -55,14 +55,14 @@ func (controller *APIControllers) UpdateExpression(ctx *fiber.Ctx) error {
 	id := ctx.Params("expressionID")
 	parsedId, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error on parse expressionID": err.Error(),
 		})
 	}
 
 	expressionReceived := new(entities.Expression)
 	if err := ctx.BodyParser(expressionReceived); err != nil {
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error on parsing in UpdateExpression": err.Error(),
 		})
 	}

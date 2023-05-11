@@ -30,8 +30,8 @@ func TestRegisterExpression(t *testing.T) {
 		{
 			name:                             "Success on register an expression",
 			input:                            bytes.NewBuffer(ExpressionJsonSerialized),
-			expectedStatusCode:               200,
-			expectedRegisterExpressionResult: ExpressionOutput,
+			expectedStatusCode:               201,
+			expectedRegisterExpressionResult: Expression,
 			expectedRegisterExpressionError:  nil,
 			authToken:                        ValidToken,
 		},
@@ -46,7 +46,7 @@ func TestRegisterExpression(t *testing.T) {
 		{
 			name:                             "Error on register an expression, broken input",
 			input:                            bytes.NewBuffer([]byte("{ex:'1'}")),
-			expectedStatusCode:               500,
+			expectedStatusCode:               400,
 			expectedRegisterExpressionResult: entities.Expression{},
 			expectedRegisterExpressionError:  assert.AnError,
 			authToken:                        ValidToken,
@@ -78,13 +78,13 @@ func TestRegisterExpression(t *testing.T) {
 
 			response, err := app.Test(req)
 			if err != nil {
-				t.Errorf("Error on test app with created req")
+				t.Errorf("Error on test app with created req: %s", err)
 			}
 
 			var actualResponse entities.Expression
 			responseReadCloser, _ := ioutil.ReadAll(response.Body)
 			if err := json.Unmarshal(responseReadCloser, &actualResponse); err != nil {
-				t.Errorf("Error on parse bodyResp")
+				t.Errorf("Error on parse bodyResp: %s", err)
 			}
 
 			assert.Equal(t, test.expectedStatusCode, response.StatusCode)
@@ -104,7 +104,7 @@ func TestGetExpressions(t *testing.T) {
 		{
 			name:                         "Success on get expressions",
 			expectedStatusCode:           200,
-			expectedGetExpressionsResult: ExpressionsOutput,
+			expectedGetExpressionsResult: Expressions,
 			expectedGetExpressionsError:  nil,
 			authToken:                    ValidToken,
 		},
@@ -140,19 +140,110 @@ func TestGetExpressions(t *testing.T) {
 
 			response, err := app.Test(req)
 			if err != nil {
-				t.Errorf("Error on test app with created req")
+				t.Errorf("Error on test app with created req: %s", err)
 			}
 
-			var actualResponse []entities.Expression
+			var expressions []entities.Expression
 			responseReadCloser, _ := ioutil.ReadAll(response.Body)
 			if response.StatusCode == 200 {
-				if err := json.Unmarshal(responseReadCloser, &actualResponse); err != nil {
+				if err := json.Unmarshal(responseReadCloser, &expressions); err != nil {
 					t.Errorf(fmt.Sprintf("Error on parse: %s", err))
 				}
 			}
 
 			assert.Equal(t, test.expectedStatusCode, response.StatusCode)
-			assert.Equal(t, test.expectedGetExpressionsResult, actualResponse)
+			assert.Equal(t, test.expectedGetExpressionsResult, expressions)
+		})
+	}
+}
+
+func TestUpdateExpressions(t *testing.T) {
+	tests := []struct {
+		name                           string
+		input                          *bytes.Buffer
+		expressionID                   string
+		expectedUpdateExpressionResult entities.Expression
+		expectedUpdateExpressionError  error
+		expectedStatusCode             int
+		authToken                      string
+	}{
+		{
+			name:                           "Success on update an expression",
+			input:                          bytes.NewBuffer(ExpressionJsonSerialized),
+			expressionID:                   "1",
+			expectedUpdateExpressionResult: Expression,
+			expectedUpdateExpressionError:  nil,
+			expectedStatusCode:             200,
+			authToken:                      ValidToken,
+		},
+		{
+			name:                           "Error on update an expression",
+			input:                          bytes.NewBuffer(ExpressionJsonSerialized),
+			expressionID:                   "1",
+			expectedUpdateExpressionResult: entities.Expression{},
+			expectedUpdateExpressionError:  assert.AnError,
+			expectedStatusCode:             500,
+			authToken:                      ValidToken,
+		},
+		{
+			name:                           "Error on update an expression, invalid expressionID",
+			input:                          bytes.NewBuffer(ExpressionJsonSerialized),
+			expressionID:                   "xyz",
+			expectedUpdateExpressionResult: entities.Expression{},
+			expectedUpdateExpressionError:  nil,
+			expectedStatusCode:             400,
+			authToken:                      ValidToken,
+		},
+		{
+			name:                           "Error on update an expression, broken json",
+			input:                          bytes.NewBuffer([]byte("{ex:'1'}")),
+			expressionID:                   "1",
+			expectedUpdateExpressionResult: entities.Expression{},
+			expectedUpdateExpressionError:  assert.AnError,
+			expectedStatusCode:             400,
+			authToken:                      ValidToken,
+		},
+		{
+			name:                           "Error on update an expression, invalid auth token",
+			input:                          bytes.NewBuffer(ExpressionJsonSerialized),
+			expressionID:                   "1",
+			expectedUpdateExpressionResult: entities.Expression{},
+			expectedUpdateExpressionError:  nil,
+			expectedStatusCode:             401,
+			authToken:                      ValidToken + "invalidating auth token",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+
+			servicesMock := mocks.NewExpressionServiceMock()
+			servicesMock.On("UpdateExpression", mock.AnythingOfType("uint64"), mock.AnythingOfType("*string")).
+				Return(test.expectedUpdateExpressionResult, test.expectedUpdateExpressionError)
+
+			controllers := controllers.NewAPIControllers(servicesMock)
+
+			app := fiber.New()
+			routes.SetupRoutes(app, controllers)
+
+			req := httptest.NewRequest("PATCH", fmt.Sprintf("/expressions/%s", test.expressionID), test.input)
+			req.Header.Add("Content-Type", "application/json")
+			req.Header.Add("Authorization", "Bearer "+test.authToken)
+
+			response, err := app.Test(req)
+			if err != nil {
+				t.Errorf("Error on test app with an created req: %s", err)
+			}
+
+			var updatedExpression entities.Expression
+			responseReadCloser, _ := ioutil.ReadAll(response.Body)
+			if err := json.Unmarshal(responseReadCloser, &updatedExpression); err != nil {
+				t.Errorf("Error on parse bodyResp: %s", err)
+			}
+
+			assert.Equal(t, test.expectedStatusCode, response.StatusCode)
+			assert.Equal(t, test.expectedUpdateExpressionResult, updatedExpression)
+
 		})
 	}
 }
