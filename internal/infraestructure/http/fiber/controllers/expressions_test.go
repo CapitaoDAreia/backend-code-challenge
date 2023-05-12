@@ -309,3 +309,66 @@ func TestDeleteExpression(t *testing.T) {
 		})
 	}
 }
+
+func TestCalculateExpression(t *testing.T) {
+	tests := []struct {
+		name                             string
+		expressionID                     string
+		expectedStatusCode               int
+		expectedCalculateExpressionError error
+		authToken                        string
+	}{
+		{
+			name:                             "Success on calculate expressions",
+			expressionID:                     "1",
+			expectedStatusCode:               200,
+			expectedCalculateExpressionError: nil,
+			authToken:                        ValidToken,
+		},
+		{
+			name:                             "Error on calculate expressions",
+			expressionID:                     "1",
+			expectedStatusCode:               500,
+			expectedCalculateExpressionError: assert.AnError,
+			authToken:                        ValidToken,
+		},
+		{
+			name:                             "Error on calculate expressions, invalid token",
+			expressionID:                     "1",
+			expectedStatusCode:               401,
+			expectedCalculateExpressionError: nil,
+			authToken:                        ValidToken + "invalidatingTokenString",
+		},
+		{
+			name:                             "Error on calculate expressions, invalid expressionID",
+			expressionID:                     "abcde",
+			expectedStatusCode:               500,
+			expectedCalculateExpressionError: assert.AnError,
+			authToken:                        ValidToken,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+
+			servicesMock := mocks.NewExpressionServiceMock()
+			servicesMock.On("CalculateExpression", mock.AnythingOfType("uint64"), mock.AnythingOfType("*fiber.Ctx")).
+				Return(mock.AnythingOfType("interface{}"), test.expectedCalculateExpressionError)
+			controllers := controllers.NewAPIControllers(servicesMock)
+
+			app := fiber.New()
+			routes.SetupRoutes(app, controllers)
+
+			req := httptest.NewRequest(fiber.MethodGet, fmt.Sprintf("/expressions/%s", test.expressionID), nil)
+			req.Header.Add("Authorization", "Bearer "+test.authToken)
+			req.Header.Add("Content-Type", "application/json")
+
+			response, err := app.Test(req)
+			if err != nil {
+				t.Errorf("Error on test app with created req: %s", err)
+			}
+
+			assert.Equal(t, test.expectedStatusCode, response.StatusCode)
+		})
+	}
+}
