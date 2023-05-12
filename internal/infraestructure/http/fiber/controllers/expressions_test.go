@@ -247,3 +247,65 @@ func TestUpdateExpressions(t *testing.T) {
 		})
 	}
 }
+
+func TestDeleteExpression(t *testing.T) {
+	tests := []struct {
+		name                           string
+		expressionID                   string
+		expectedDeleteExpressionResult error
+		expectedStatusCode             int
+		authToken                      string
+	}{
+		{
+			name:                           "Success on delete an expression",
+			expressionID:                   "1",
+			expectedDeleteExpressionResult: nil,
+			expectedStatusCode:             204,
+			authToken:                      ValidToken,
+		},
+		{
+			name:                           "Error on delete an expression",
+			expressionID:                   "1",
+			expectedDeleteExpressionResult: assert.AnError,
+			expectedStatusCode:             500,
+			authToken:                      ValidToken,
+		},
+		{
+			name:                           "Error on delete an expression, invalid expressionID",
+			expressionID:                   "abcde",
+			expectedDeleteExpressionResult: nil,
+			expectedStatusCode:             400,
+			authToken:                      ValidToken,
+		},
+		{
+			name:                           "Error on delete an expression, invalid auth token",
+			expressionID:                   "1",
+			expectedDeleteExpressionResult: assert.AnError,
+			expectedStatusCode:             401,
+			authToken:                      ValidToken + "invalidating auth token",
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			servicesMock := mocks.NewExpressionServiceMock()
+			servicesMock.On("DeleteExpressionById", mock.AnythingOfType("uint64")).Return(test.expectedDeleteExpressionResult)
+
+			controllers := controllers.NewAPIControllers(servicesMock)
+
+			app := fiber.New()
+			routes.SetupRoutes(app, controllers)
+
+			req := httptest.NewRequest("DELETE", fmt.Sprintf("/expressions/%s", test.expressionID), nil)
+			req.Header.Add("Content-Type", "application/json")
+			req.Header.Add("Authorization", "Bearer "+test.authToken)
+
+			response, err := app.Test(req)
+			if err != nil {
+				t.Errorf("Error on test app with an created req: %s", err)
+			}
+
+			assert.Equal(t, test.expectedStatusCode, response.StatusCode)
+		})
+	}
+}
