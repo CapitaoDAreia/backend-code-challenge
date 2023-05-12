@@ -30,7 +30,7 @@ func (controller *APIControllers) RegisterExpression(ctx *fiber.Ctx) error {
 
 	createdExpressionId, err := controller.s.RegisterExpression(receivedExpression)
 	if err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error on register a new expression": err.Error(),
 		})
 	}
@@ -42,12 +42,12 @@ func (controller *APIControllers) RegisterExpression(ctx *fiber.Ctx) error {
 func (controller *APIControllers) GetExpressions(ctx *fiber.Ctx) error {
 	expressions, err := controller.s.GetExpressions()
 	if err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"message": err.Error(),
 		})
 	}
 
-	return ctx.Status(200).JSON(expressions)
+	return ctx.Status(fiber.StatusOK).JSON(expressions)
 }
 
 // Update an existent Expression
@@ -84,18 +84,18 @@ func (controller *APIControllers) DeleteExpression(ctx *fiber.Ctx) error {
 	id := ctx.Params("expressionID")
 	parsedId, err := strconv.ParseUint(id, 10, 64)
 	if err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
 			"error on parse expressionID": err.Error(),
 		})
 	}
 
 	if err := controller.s.DeleteExpressionById(parsedId); err != nil {
-		return ctx.Status(500).JSON(fiber.Map{
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
 			"error on delete expression by ID": err.Error(),
 		})
 	}
 
-	return ctx.Status(204).JSON("")
+	return ctx.Status(fiber.StatusNoContent).JSON("")
 }
 
 // Calculate an expression based on received values
