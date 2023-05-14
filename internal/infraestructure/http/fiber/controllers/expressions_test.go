@@ -3,6 +3,7 @@ package controllers_test
 import (
 	"backend-challenge-api/internal/application/services/mocks"
 	"backend-challenge-api/internal/domain/entities"
+	authMock "backend-challenge-api/internal/infraestructure/http/auth/mocks"
 	"backend-challenge-api/internal/infraestructure/http/fiber/controllers"
 	"backend-challenge-api/internal/infraestructure/http/fiber/routes"
 	"bytes"
@@ -366,6 +367,42 @@ func TestCalculateExpression(t *testing.T) {
 			response, err := app.Test(req)
 			if err != nil {
 				t.Errorf("Error on test app with created req: %s", err)
+			}
+
+			assert.Equal(t, test.expectedStatusCode, response.StatusCode)
+		})
+	}
+}
+
+func TestAuthenticate(t *testing.T) {
+	tests := []struct {
+		name                       string
+		expectedStatusCode         int
+		expectedGenerateTokenError error
+	}{
+		{
+			name:                       "Success on authenticate",
+			expectedStatusCode:         fiber.StatusOK,
+			expectedGenerateTokenError: nil,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			servicesMock := mocks.NewExpressionServiceMock()
+			authMock := authMock.NewAuthMock()
+			authMock.On("GenerateToken").Return("", test.expectedGenerateTokenError)
+			controllers := controllers.NewAPIControllers(servicesMock)
+
+			app := fiber.New()
+			routes.SetupRoutes(app, controllers)
+
+			req := httptest.NewRequest(fiber.MethodPost, "/auth", nil)
+			req.Header.Set("Content-Type", "application/json")
+
+			response, err := app.Test(req)
+			if err != nil {
+				t.Errorf("Error on testing the app with the created request: %s", err)
 			}
 
 			assert.Equal(t, test.expectedStatusCode, response.StatusCode)
