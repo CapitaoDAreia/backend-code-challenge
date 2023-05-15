@@ -13,7 +13,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzNTA0MjMyfQ.FhXIbAy6-UOFuWlaD2rVKdPYPmzjkizdqhhIBLHFKtM",
 							"type": "string"
 						}
 					]
@@ -42,7 +42,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzNTA0MjMyfQ.FhXIbAy6-UOFuWlaD2rVKdPYPmzjkizdqhhIBLHFKtM",
 							"type": "string"
 						}
 					]
@@ -51,7 +51,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "    {\n        \"expression\": \"x || y\"\n    }",
+					"raw": "    {\n        \"expression\": \"y && x\"\n    }",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -59,7 +59,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/expressions/9",
+					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/expressions/2",
 					"protocol": "http",
 					"host": [
 						"{{CONTAINER_IP_ADDRESS}}"
@@ -67,7 +67,7 @@
 					"port": "{{CONTAINER_PORT}}",
 					"path": [
 						"expressions",
-						"9"
+						"2"
 					]
 				}
 			},
@@ -81,7 +81,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzNTA0MjMyfQ.FhXIbAy6-UOFuWlaD2rVKdPYPmzjkizdqhhIBLHFKtM",
 							"type": "string"
 						}
 					]
@@ -98,7 +98,7 @@
 					}
 				},
 				"url": {
-					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/expressions/9",
+					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/expressions/2",
 					"protocol": "http",
 					"host": [
 						"{{CONTAINER_IP_ADDRESS}}"
@@ -106,7 +106,7 @@
 					"port": "{{CONTAINER_PORT}}",
 					"path": [
 						"expressions",
-						"9"
+						"2"
 					]
 				}
 			},
@@ -120,7 +120,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzNTA0MjMyfQ.FhXIbAy6-UOFuWlaD2rVKdPYPmzjkizdqhhIBLHFKtM",
 							"type": "string"
 						}
 					]
@@ -129,7 +129,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n    \"expression\": \"(x || y) && z\"\n}",
+					"raw": "{\n    \"expression\": \"(x && z) || y\"\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -186,7 +186,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzMzQyMzkxfQ.8XjP3OXy3o-c_HO-6_i5ee7C3TZabZcWIbkkKsK-Yo8",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHB0IjoxNjgzNTA0MjMyfQ.FhXIbAy6-UOFuWlaD2rVKdPYPmzjkizdqhhIBLHFKtM",
 							"type": "string"
 						}
 					]
@@ -194,14 +194,15 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/9?x=false&y=true&z=false",
+					"raw": "http://{{CONTAINER_IP_ADDRESS}}:{{CONTAINER_PORT}}/expressions/5?x=false&y=true&z=true",
 					"protocol": "http",
 					"host": [
 						"{{CONTAINER_IP_ADDRESS}}"
 					],
 					"port": "{{CONTAINER_PORT}}",
 					"path": [
-						"9"
+						"expressions",
+						"5"
 					],
 					"query": [
 						{
@@ -214,7 +215,7 @@
 						},
 						{
 							"key": "z",
-							"value": "false"
+							"value": "true"
 						}
 					]
 				}
